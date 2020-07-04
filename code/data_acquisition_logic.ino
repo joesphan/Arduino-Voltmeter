@@ -21,6 +21,7 @@ void takeMeasurement() {
   //ch1Value
   resetDigiPots();
   float measurement = 0;
+  int potposBuf;
   //ch1
   measurement = analogRead(ch1Pin);
   while (measurement < 1000 && digiPot1Pos != 99) {     //increasing the digipot to clipping
@@ -28,9 +29,11 @@ void takeMeasurement() {
     measurement = analogRead(ch1Pin);
   }
   decreaseDigiPot(1);                                   //back it off one step
-  delay(100);  //settle
-  measurement = analogRead(ch1Pin);
-  ch1Value = measurement * (99.000000 / (digiPot1Pos)) * (AREF_CAL / 1023.000000);
+  delayMicroseconds(250);                               //settle (takes 180us to settle)
+  measurement = analogRead(ch1Pin);                     //reset early, as calc step takes a while to run. HV at this state can cause damage
+  potposBuf = digiPot1Pos;
+  resetDigiPots();
+  ch1Value = measurement * (99.000000 / (potposBuf)) * (AREF_CAL / 1023.000000);
   //ch2
   measurement = analogRead(ch2Pin);
   while (measurement < 1000 && digiPot2Pos != 99) {     //increasing the digipot to clipping
@@ -38,11 +41,12 @@ void takeMeasurement() {
     measurement = analogRead(ch2Pin);
   }
   decreaseDigiPot(2);                                   //back it off one step
-  delay(100);  //settle
-  measurement = analogRead(ch2Pin);
-  ch2Value = measurement * (99.000000 / (digiPot2Pos)) * (AREF_CAL / 1023.000000);
-  
-  //resetDigiPots();            //AAAAAAAAAAAAAAAA
+  delayMicroseconds(250);                               //settle (takes 180us to settle)
+  measurement = analogRead(ch2Pin);                     //reset early, as calc step takes a while to run. HV at this state can cause damage
+  potposBuf = digiPot2Pos;
+  resetDigiPots();
+  ch2Value = measurement * (99.000000 / (potposBuf)) * (AREF_CAL / 1023.000000);
+  resetDigiPots();            //AAAAAAAAAAAAAAAA
 }
 
 void sendDebugMeasurement() {

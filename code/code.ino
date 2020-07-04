@@ -21,5 +21,5 @@ void loop() {
     sendDebugMeasurement();
   }
   updateDisplay();
-  delay(200);
+  delay(300);
 }
