@@ -21,7 +21,7 @@ Here's a picture of a scope reading that illustrates this:
 After the little peak, the digipot "hangs" for a while. 
 
 Figuring out the exact time for the digipot to settle allows optimization of minimal time in this high state:
-![oscope](./gh/fine tuned.jpg)
+![oscope](./gh/fine_tuned.jpg)
 
 
 # Libraries used:
