@@ -1,4 +1,4 @@
-#define AREF_CAL 1.100000
+#define AREF_CAL 1.076000               //measure AREF using DMM and replace
 
 #define ch1Pin A1
 #define ch2Pin A2
@@ -23,6 +23,7 @@ void takeMeasurement() {
   float measurement = 0;
   int potposBuf;
   //ch1
+  digitalWrite(ch1MeasureEN, HIGH);                     //turn on measuring ch1 transistor
   measurement = analogRead(ch1Pin);
   while (measurement < 1000 && digiPot1Pos != 99) {     //increasing the digipot to clipping
     increaseDigiPot(1);
@@ -32,9 +33,11 @@ void takeMeasurement() {
   delayMicroseconds(250);                               //settle (takes 180us to settle)
   measurement = analogRead(ch1Pin);                     //reset early, as calc step takes a while to run. HV at this state can cause damage
   potposBuf = digiPot1Pos;
+  digitalWrite(ch1MeasureEN, LOW);                     //turn off measuring ch1 transistor
   resetDigiPots();
   ch1Value = measurement * (99.000000 / (potposBuf)) * (AREF_CAL / 1023.000000);
   //ch2
+  digitalWrite(ch2MeasureEN, HIGH);                     //turn on measuring ch2 transistor
   measurement = analogRead(ch2Pin);
   while (measurement < 1000 && digiPot2Pos != 99) {     //increasing the digipot to clipping
     increaseDigiPot(2);
@@ -46,6 +49,7 @@ void takeMeasurement() {
   potposBuf = digiPot2Pos;
   resetDigiPots();
   ch2Value = measurement * (99.000000 / (potposBuf)) * (AREF_CAL / 1023.000000);
+  digitalWrite(ch2MeasureEN, LOW);                     //turn off measuring ch2 transistor
   resetDigiPots();            //AAAAAAAAAAAAAAAA
 }
 
