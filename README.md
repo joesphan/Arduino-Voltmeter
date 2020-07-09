@@ -1,3 +1,4 @@
+# Just fried my Pro Mini's ADC, I guess this doesn't work without any Zener bois
 # Arduino-Voltmeter
 Arduino Voltmeter
 The standard way of measuring voltage on the arduino is connecting the voltage directly to the arduino analog pins. When you want to measure something greater than VCC + 0.5V, it requires a voltage divider, which causes a loss in resolution. What I have done is implemented a digitpot instead of a fixed voltage divider.
